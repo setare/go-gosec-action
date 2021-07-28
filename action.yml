@@ -1,0 +1,11 @@
+name: 'Validations'
+description: 'Security Checks'
+runs:
+  using: "composite"
+  steps:
+    - name: Install gosec
+      run: go install github.com/securego/gosec/v2/cmd/gosec@v2.8.1
+      shell: bash
+    - name: Run gosec
+      run: gosec ./...
+      shell: bash
