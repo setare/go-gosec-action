@@ -17,10 +17,10 @@ runs:
       run: go install github.com/securego/gosec/v2/cmd/gosec@${{ inputs.gosec_version }}
       shell: bash
     - name: Run gosec without config
-      if: ${{ inputs.config }} != ''
+      if: ${{ inputs.config != '' }}
       run: gosec ./...
       shell: bash
     - name: Run gosec
-      if: ${{ inputs.config }} == ''
+      if: ${{ inputs.config == '' }}
       run: gosec -conf ${{ inputs.config }} ./...
       shell: bash
