@@ -1,11 +1,26 @@
 name: 'Validations'
 description: 'Security Checks'
+inputs:
+  gosec_version:
+    required: false
+    default: 'latest'
+    description: 'gosec version'
+  config:
+    required: false
+    default: ''
+    description: 'config file'
+
 runs:
   using: "composite"
   steps:
     - name: Install gosec
-      run: go install github.com/securego/gosec/v2/cmd/gosec@v2.8.1
+      run: go install github.com/securego/gosec/v2/cmd/gosec@${{ inputs.gosec_version }}
+      shell: bash
+    - name: Run gosec without config
+      if: ${{ inputs.config }} != ''
+      run: gosec ./...
       shell: bash
     - name: Run gosec
-      run: gosec ./...
+      if: ${{ inputs.config }} == ''
+      run: gosec -conf ${{ inputs.config }} ./...
       shell: bash
